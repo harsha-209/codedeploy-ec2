@@ -3,3 +3,6 @@ isExistApp=`pgrep httpd`
 if [[ -n  $isExistApp ]]; then
     service apache2 stop        
 fi
+cd /var/www/html/
+
+sudo rm -rf index.html
