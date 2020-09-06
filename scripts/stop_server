@@ -1,8 +1,6 @@
 #!/bin/bash
-isExistApp=`pgrep httpd`
+isExistApp=`pgrep apache2`
 if [[ -n  $isExistApp ]]; then
     service apache2 stop        
 fi
-cd /var/www/html/
 
-sudo rm -rf index.html
