@@ -2,4 +2,3 @@
 sudo apt-get -y update
 sudo apt-get install -y apache2
 
-apt-get install -y httpd
