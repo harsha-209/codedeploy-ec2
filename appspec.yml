@@ -3,7 +3,7 @@ os: linux
 files:
   - source: /index.html
     destination: /var/www/html/
-    overwrite: purge
+    overwrite: merge
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies
