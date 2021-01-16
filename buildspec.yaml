@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+
+  build:
+    commands:
+      # - aws s3 cp --recursive --acl public-read . s3://${S3_BUCKET}/
+      # - aws s3 cp --recursive --acl public-read . s3://${S3_BUCKETderter}/
+       - echo Build started on `date`
+       - zip -r sample.zip .
+       - aws s3 cp --recursive --acl public-read . s3://${S3_BUCKET}/
+       - TEMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::accountB:role/my-crenditials" --role-session-name "CFCacheInvalidationSession")
+       - export TEMP_ROLE
+       - echo $TEMP_ROLE
+       - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
+       - export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
+       - export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
+       - echo $AWS_ACCESS_KEY_ID
+       - echo $AWS_SECRET_ACCESS_KEY
+       - echo $AWS_SESSION_TOKEN
+       - aws s3 ls
+       - aws deploy create-deployment --application-name codedeploy-codebuild --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name vvvv --s3-location bucket=codedeploy-codebuild23,bundleType=zip,key=sample.zip
